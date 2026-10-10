@@ -147,6 +147,17 @@ andamento e uma já concluída) — útil para testar rápido sem digitar tudo.
    perguntas diferentes, mostrando que a resposta é sempre uma dica
    aleatória — essa tela é a demonstração do Bloc.
 
+## Pendências / próximos passos
+
+Itens que ficaram fora do escopo da versão 1.0, para uma próxima sessão:
+
+- **Autenticação com Google (Firebase Auth)**: hoje todas as viagens ficam
+  numa coleção `viagens` compartilhada por qualquer pessoa que acesse o app —
+  não há login. A ideia para a próxima versão é adicionar login com conta
+  Google, associar cada viagem ao `uid` do usuário autenticado, e restringir
+  a leitura/escrita no Firestore (regras de segurança) para que cada um veja
+  e edite somente as próprias viagens.
+
 ## Licença da imagem do mapa
 
 A imagem `assets/images/world_map_grey.png` é uma versão recolorida (cinza e
