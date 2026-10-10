@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "375827838428",
+    "project_id": "tm-diario-viagem",
+    "storage_bucket": "tm-diario-viagem.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375827838428:android:33530b998020b4a0a00b19",
+        "android_client_info": {
+          "package_name": "br.com.cet.tm_diario_viagem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkFqdAQC6O6CljEQYmEkcsrWYu0sGe8pA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

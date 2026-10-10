@@ -1,0 +1,15 @@
+// Regras do Firestore usadas neste projeto acadêmico.
+//
+// ATENÇÃO: isto libera leitura e escrita para qualquer pessoa, sem
+// autenticação. É adequado SOMENTE para um trabalho de faculdade feito
+// em modo de produção sem expiração automática (diferente do "modo de
+// teste" padrão, que expira em 30 dias). NUNCA use uma regra assim em
+// um app real com usuários e dados sensíveis.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
