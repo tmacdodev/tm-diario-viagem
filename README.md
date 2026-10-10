@@ -105,15 +105,6 @@ projeção equirretangular (retangular, sem distorção de forma), então a
 conversão linear de latitude/longitude para posição na tela é exata em
 qualquer ponto do mapa.
 
-## Código assíncrono sem async/await
-
-Por pedido do professor, o projeto não usa `async`/`await` nem declara
-`Future<...>` explicitamente em nenhum método. Toda operação assíncrona
-(Firestore, dio, image_picker, `showDialog`, `showDatePicker`) é encadeada
-com `.then()` — e os erros são tratados com `.catchError()` (equivalente ao
-`try/catch`) e `.whenComplete()` (equivalente ao `finally`). O `main()` em
-[`main.dart`](lib/main.dart) segue o mesmo padrão: conecta ao Firebase antes
-do `runApp()`, usando `.then()` em vez de `await`.
 
 ## Como rodar o projeto
 
