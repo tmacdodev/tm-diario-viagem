@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 
 import '../models/viagem.dart';
 
@@ -8,11 +9,17 @@ import '../models/viagem.dart';
 class ViagemProvider {
   final _colecao = FirebaseFirestore.instance.collection('viagens');
 
+  // Cada viagem guarda o uid de quem a criou; a lista só traz as viagens do
+  // usuário logado. A ordenação por data é feita aqui no app para não
+  // exigir um índice composto (uid + dataIda) no Firestore.
+  String get _uid => FirebaseAuth.instance.currentUser!.uid;
+
   Stream<List<Viagem>> streamViagens() {
-    return _colecao
-        .orderBy('dataIda')
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map(Viagem.fromFirestore).toList());
+    return _colecao.where('uid', isEqualTo: _uid).snapshots().map((snapshot) {
+      final viagens = snapshot.docs.map(Viagem.fromFirestore).toList();
+      viagens.sort((a, b) => a.dataIda.compareTo(b.dataIda));
+      return viagens;
+    });
   }
 
   Stream<Viagem> streamViagemPorId(String id) {
@@ -20,7 +27,7 @@ class ViagemProvider {
   }
 
   adicionar(Viagem viagem) {
-    return _colecao.add(viagem.toMap());
+    return _colecao.add({...viagem.toMap(), 'uid': _uid});
   }
 
   atualizar(Viagem viagem) {

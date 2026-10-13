@@ -1,9 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'firebase_options.dart';
+import 'blocs/auth_bloc.dart';
+import 'blocs/auth_state.dart';
+import 'screens/auth_screen.dart';
 import 'screens/lista_viagens_screen.dart';
 
 // Ponto de entrada do app
@@ -23,30 +27,50 @@ class DiarioViagemApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'TM Diário de Viagem',
-      debugShowCheckedModeBanner: false,
-      // Garante que os widgets nativos (DatePicker, etc.) também apareçam
-      // em português, no padrão brasileiro.
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('pt', 'BR')],
-      locale: const Locale('pt', 'BR'),
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
-      ),
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.purple,
-          brightness: Brightness.dark,
+    return BlocProvider(
+      create: (_) => AuthBloc(),
+      child: MaterialApp(
+        title: 'TM Diário de Viagem',
+        debugShowCheckedModeBanner: false,
+        // Garante que os widgets nativos (DatePicker, etc.) também apareçam
+        // em português, no padrão brasileiro.
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('pt', 'BR')],
+        locale: const Locale('pt', 'BR'),
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
         ),
+        darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.purple,
+            brightness: Brightness.dark,
+          ),
+        ),
+        home: const _AuthGate(),
       ),
-      home: const ListaViagensScreen(),
+    );
+  }
+}
+
+// Decide a tela inicial conforme o estado de autenticação. Erros e
+// carregamento mantêm a AuthScreen (que mostra o SnackBar/indicador).
+class _AuthGate extends StatelessWidget {
+  const _AuthGate();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AuthBloc, AuthState>(
+      buildWhen: (anterior, atual) =>
+          atual is AuthAutenticado || atual is AuthNaoAutenticado,
+      builder: (context, state) => state is AuthAutenticado
+          ? const ListaViagensScreen()
+          : const AuthScreen(),
     );
   }
 }

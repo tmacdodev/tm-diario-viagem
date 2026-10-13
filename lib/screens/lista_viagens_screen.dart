@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../blocs/auth_bloc.dart';
+import '../blocs/auth_event.dart';
 import '../blocs/viagens_bloc.dart';
 import '../blocs/viagens_state.dart';
 import '../models/viagem.dart';
@@ -117,6 +119,14 @@ class _ListaViagensScreenState extends State<ListaViagensScreen> {
       appBar: AppBar(
         toolbarHeight: 72,
         titleSpacing: 12,
+        actions: [
+          IconButton(
+            tooltip: 'Sair',
+            icon: const Icon(Icons.logout),
+            onPressed: () =>
+                context.read<AuthBloc>().add(const SairSolicitado()),
+          ),
+        ],
         // Título dentro de uma caixa arredondada com sombra, esticado para
         // ocupar a largura toda com FittedBox, em maiúsculo e fonte moderna.
         // A altura precisa ficar travada num SizedBox, senão o FittedBox

@@ -1,15 +1,19 @@
-// Regras do Firestore usadas neste projeto acadêmico.
-//
-// ATENÇÃO: isto libera leitura e escrita para qualquer pessoa, sem
-// autenticação. É adequado SOMENTE para um trabalho de faculdade feito
-// em modo de produção sem expiração automática (diferente do "modo de
-// teste" padrão, que expira em 30 dias). NUNCA use uma regra assim em
-// um app real com usuários e dados sensíveis.
+// Regras do Firestore: cada usuário só enxerga e altera as próprias viagens
+// (campo "uid" do documento) e as compras dessas viagens.
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
+    match /viagens/{viagemId} {
+      allow create: if request.auth != null
+                    && request.resource.data.uid == request.auth.uid;
+      allow read, update, delete: if request.auth != null
+                                  && resource.data.uid == request.auth.uid;
+
+      match /compras/{compraId} {
+        allow read, write: if request.auth != null
+          && get(/databases/$(database)/documents/viagens/$(viagemId)).data.uid
+             == request.auth.uid;
+      }
     }
   }
 }

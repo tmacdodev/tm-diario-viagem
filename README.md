@@ -5,6 +5,12 @@ demonstrar a comunicação com a internet (biblioteca **dio**, consumindo uma AP
 REST) e a persistência de dados em tempo real com o **Firebase Cloud
 Firestore**.
 
+## Autenticação (versão 1.1)
+
+Login com **e-mail/senha** e **Google**, e cada viagem fica associada ao
+usuário logado. **Nesta versão o login só funciona na web**; em dispositivos
+móveis (Android/iOS) ele ainda não está configurado.
+
 ## Objetivo do app
 
 Cadastrar viagens (destino, datas, orçamento, anotações) e enriquecer cada uma
