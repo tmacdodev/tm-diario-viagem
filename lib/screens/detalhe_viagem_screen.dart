@@ -63,6 +63,10 @@ class _DetalheViagemView extends StatelessWidget {
             child: const Text('Cancelar'),
           ),
           FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.green,
+              foregroundColor: Colors.white,
+            ),
             onPressed: () => Navigator.pop(ctx, controller.text),
             child: const Text('Salvar'),
           ),
@@ -135,6 +139,10 @@ class _DetalheViagemView extends StatelessWidget {
               child: const Text('Cancelar'),
             ),
             FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+              ),
               onPressed: () => Navigator.pop(ctx, true),
               child: const Text('Salvar'),
             ),
@@ -174,10 +182,15 @@ class _DetalheViagemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(viagemOriginal.destino),
+        title: Text(
+          viagemOriginal.destino,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
+            color: Theme.of(context).colorScheme.primary,
             onPressed: () {
               Navigator.push(
                 context,
@@ -290,6 +303,7 @@ class _DetalheViagemView extends StatelessWidget {
                   ),
                   IconButton(
                     icon: const Icon(Icons.edit_note),
+                    color: Theme.of(context).colorScheme.primary,
                     onPressed: () =>
                         _editarAnotacoes(context, viagemAtual.anotacoes),
                   ),
@@ -355,6 +369,7 @@ class _DetalheViagemView extends StatelessWidget {
                                 ),
                                 trailing: IconButton(
                                   icon: const Icon(Icons.delete_outline),
+                                  color: Colors.red,
                                   onPressed: () => _compraProvider.remover(
                                     viagemAtual.id!,
                                     c.id!,

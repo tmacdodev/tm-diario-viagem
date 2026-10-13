@@ -214,6 +214,34 @@ class _FormViagemScreenState extends State<FormViagemScreen> {
     });
   }
 
+  _confirmarExclusao() {
+    return showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Excluir viagem'),
+        content: const Text('Deseja realmente excluir essa viagem?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Não'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Sim'),
+          ),
+        ],
+      ),
+    ).then((confirmou) {
+      if (confirmou == true) {
+        return _provider.remover(widget.viagem!.id!).then((_) {
+          if (mounted) {
+            Navigator.of(context).popUntil((rota) => rota.isFirst);
+          }
+        });
+      }
+    });
+  }
+
   // Quadrado de 120x120 com a foto escolhida (ou um placeholder), um botão
   // para remover a foto atual e a dica do tamanho exigido.
   Widget _campoFoto(BuildContext context) {
@@ -285,8 +313,19 @@ class _FormViagemScreenState extends State<FormViagemScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_editando ? 'Editar viagem' : 'Nova viagem'),
+        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
         actions: [
-          IconButton(onPressed: _salvar, icon: const Icon(Icons.check)),
+          if (_editando)
+            IconButton(
+              onPressed: _confirmarExclusao,
+              icon: const Icon(Icons.delete_outline),
+              color: Colors.red,
+            ),
+          IconButton(
+            onPressed: _salvar,
+            icon: const Icon(Icons.check),
+            color: Colors.green,
+          ),
         ],
       ),
       body: Form(
@@ -393,7 +432,7 @@ class _FormViagemScreenState extends State<FormViagemScreen> {
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: () => _escolherData(ida: true),
-                    icon: const Icon(Icons.flight_takeoff),
+                    icon: const Icon(Icons.flight_takeoff, color: Colors.green),
                     label: Text(
                       _dataIda == null
                           ? 'Data de ida'
@@ -405,7 +444,7 @@ class _FormViagemScreenState extends State<FormViagemScreen> {
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: () => _escolherData(ida: false),
-                    icon: const Icon(Icons.flight_land),
+                    icon: const Icon(Icons.flight_land, color: Colors.red),
                     label: Text(
                       _dataVolta == null
                           ? 'Data de volta'
@@ -452,6 +491,10 @@ class _FormViagemScreenState extends State<FormViagemScreen> {
             ),
             const SizedBox(height: 24),
             FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+              ),
               onPressed: _salvar,
               child: const Text('Salvar viagem'),
             ),

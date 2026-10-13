@@ -60,7 +60,10 @@ class _ChatBotViewState extends State<_ChatBotView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Assistente de viagem')),
+      appBar: AppBar(
+        title: const Text('Assistente de viagem'),
+        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
+      ),
       body: Column(
         children: [
           Expanded(
