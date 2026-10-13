@@ -1,6 +1,6 @@
-# Diário de Viagem (tm_diario_viagem)
+# Diário de Viagem (https://tm-diario-viagem.web.app)
 
-Trabalho de faculdade: app Flutter de diário/planejador de viagens, com foco em
+Entrega do Curso de Extensão Unicamp - Flutter - CET 0390003: app Flutter de diário/planejador de viagens, com foco em
 demonstrar a comunicação com a internet (biblioteca **dio**, consumindo uma API
 REST) e a persistência de dados em tempo real com o **Firebase Cloud
 Firestore**.
